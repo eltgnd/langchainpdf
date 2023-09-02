@@ -1,0 +1,4 @@
+number: \d+
+citation_with_year: \([^()]+\d{4}(?:: \d+)?\)
+citation_with_no_date: \(.*n\.d\..*\)
+enumerate_alphabet: \b[A-Za-z]\)[^.]+?[,.]

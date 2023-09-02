@@ -1,0 +1,10 @@
+pdf2image
+pytesseract
+PyPDF2
+
+streamlit
+langchain
+openai
+
+spacy
+spacy-model-en_core_web_md
