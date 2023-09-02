@@ -68,7 +68,7 @@ def get_similar(chunk, keywords, similarity_level, sentence_ender='. '):
         nlp = spacy.load('en_core_web_md')
     except OSError:
         print('Downloading language model for the spaCy POS tagger\n'
-            "(don't worry, this will only happen once)", file=stderr)
+            "(don't worry, this will only happen once)")
         from spacy.cli import download
         download('en_core_web_md')
         nlp = spacy.load('en_core_web_md')
