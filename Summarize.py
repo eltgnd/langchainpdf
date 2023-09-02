@@ -60,19 +60,18 @@ def summarizer(pdf_contents, api_key, chain_type='simple', chunk_number=size):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=size, chunk_overlap=overlap)
     chunks = text_splitter.create_documents([pdf_contents])
 
-    match chain_type:
-        case 'simple' | 'complex' | 'recursive':
-            method_mapping = {'simple': 'stuff', 'complex': 'map_reduce', 'recursive': 'refine'}
-            # Summarization model
-            chain = load_summarize_chain(llm, chain_type = method_mapping.get(chain_type), verbose = False)
-            summary = chain.run(chunks)
-            return summary
+    if chain_type in ['simple', 'complex', 'recursive']:
+        method_mapping = {'simple': 'stuff', 'complex': 'map_reduce', 'recursive': 'refine'}
+        # Summarization model
+        chain = load_summarize_chain(llm, chain_type = method_mapping.get(chain_type), verbose = False)
+        summary = chain.run(chunks)
+        return summary
 
-        case 'combined':
-            chain = load_summarize_chain(llm, chain_type = 'stuff', verbose = False)
-            # Create new list to store chunked summaries
-            summary_list = [chain.run([document]) for document in chunks]
-            return '\n\n'.join(summary_list)
+    else:
+        chain = load_summarize_chain(llm, chain_type = 'stuff', verbose = False)
+        # Create new list to store chunked summaries
+        summary_list = [chain.run([document]) for document in chunks]
+        return '\n\n'.join(summary_list)
 
 def explainer():
     st.write("Summarize PDF content using OpenAI GPT 3.5 Turbo-16K powered by LangChain framework, regardless if it's a digital or scanned PDF. To start, upload your PDF file then choose a summarization method. 💡")
