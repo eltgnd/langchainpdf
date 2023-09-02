@@ -36,7 +36,7 @@ def extract(pdf):
 @st.cache_data
 def extract_with_ocr(pdf):
     pdf_bytes = pdf.getvalue()
-    images = convert_from_bytes(pdf_bytes)
+    images = convert_from_bytes(pdf_bytes, poppler_path=r"poppler-23.08.0\Library\bin")
     text = ''
     for image in images:
         text += pytesseract.image_to_string(image)
