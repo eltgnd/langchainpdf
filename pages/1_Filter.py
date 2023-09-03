@@ -63,17 +63,7 @@ def get_patterns(filters_applied, file_path = r"regex_dict.txt"):
     return patterns
 
 def get_similar(chunk, keywords, similarity_level, sentence_ender='. '):
-
-    from spacy.cli import download
-    download('en_core_web_md')
-    nlp = spacy.load('en_core_web_md')
-
     similar_text = []
-
-    # Does not work as expected
-    # seg = pysbd.Segmenter(language="en", clean=False)
-    # segmented_text = seg.segment(chunk)
-
     for index, sentence in enumerate(chunk.split(sentence_ender)):
         sentence = sentence.strip() + '.'
         for keyword in keywords:
@@ -171,25 +161,25 @@ def main():
         st.success('Done extracting text.')
     
         # Filter
-        if st.session_state.method == 'By keyword':
-            keywords = [i.strip() for i in st.session_state.keywords.split(',')]
-            similarity_level_dict = {'Low':0.5, 'Medium':0.8, 'High':0.95}
-            similarity_level = similarity_level_dict[st.session_state.similarity_level]
+        with st.spinner('Filtering text...'):
+            if st.session_state.method == 'By keyword':
+                keywords = [i.strip() for i in st.session_state.keywords.split(',')]
+                similarity_level_dict = {'Low':0.5, 'Medium':0.8, 'High':0.95}
+                similarity_level = similarity_level_dict[st.session_state.similarity_level]
 
-            import warnings
-            with warnings.catch_warnings():
-                warnings.simplefilter('ignore', category=UserWarning)
-                filtered_sentences = get_similar(text, keywords, similarity_level)
-        else:
-            if st.session_state.filter_keys == []:
-                st.error('At least one filter key must be selected.')
+                import warnings
+                with warnings.catch_warnings():
+                    warnings.simplefilter('ignore', category=UserWarning)
+                    filtered_sentences = get_similar(text, keywords, similarity_level)
             else:
-                patterns = get_patterns(st.session_state.filter_keys)
-                filtered_sentences = get_filtered_text(text, patterns)
-        output_str = output_sentences(filtered_sentences)
+                if st.session_state.filter_keys == []:
+                    st.error('At least one filter key must be selected.')
+                else:
+                    patterns = get_patterns(st.session_state.filter_keys)
+                    filtered_sentences = get_filtered_text(text, patterns)
+            output_str = output_sentences(filtered_sentences)
 
         st.success('Done filtering sentences.')
-
         st.download_button('Optional: download the filtered sentences as a TXT file.', output_str, file_name='filtered_sentences.txt')
 
 if __name__ == '__main__': 
