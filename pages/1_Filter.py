@@ -125,7 +125,7 @@ def output_sentences(filtered_sentences):
         st.write('There are no filtered sentences based on your chosen method.')
     return output_string
 
-def main():
+def filter():
     st.header('PDF Filtering Tool 🔍')
 
     explainer()
@@ -183,5 +183,4 @@ def main():
         st.success('Done filtering sentences.')
         st.download_button('Optional: download the filtered sentences as a TXT file.', output_str, file_name='filtered_sentences.txt')
 
-if __name__ == '__main__': 
-    main()
+filter()

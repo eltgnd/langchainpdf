@@ -139,5 +139,4 @@ def main():
         st.download_button('Optional: download the extracted text as a TXT file.', text, file_name='extracted_text.txt')
         st.download_button('Optional: download the summarized text as a TXT file.', summarized_text, file_name='summarized_text.txt')
 
-if __name__ == '__main__': 
-    main()
+main()
