@@ -63,7 +63,7 @@ def get_patterns(filters_applied, file_path = r"regex_dict.txt"):
     return patterns
 
 def get_similar(chunk, keywords, similarity_level, sentence_ender='. '):
-    nlp = spacy.load('en_core_web_md')
+    nlp = spacy.load('en_core_web_sm')
     similar_text = []
     for index, sentence in enumerate(chunk.split(sentence_ender)):
         sentence = sentence.strip() + '.'
