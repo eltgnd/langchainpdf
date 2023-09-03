@@ -1,5 +1,5 @@
 import streamlit as st
-import spacy
+# import spacy
 import re
 
 # Import PDF extraction modules
@@ -111,7 +111,6 @@ def explainer():
 - Context is not taken into consideration"""
             bullet_printer(s)          
 
-
 def output_sentences(filtered_sentences):
     output_string = ''
     if filtered_sentences != []:
@@ -137,6 +136,10 @@ def filter():
 
     # Get keyword input
     if st.session_state.method == 'By keyword':
+
+        # Error message
+        st.error("Note: Filter by keyword is currently unavailable due to dependency conflicts between spaCy and LangChain.")
+
         st.text_area('Type your comma-separated keywords', help='Input example: macroeconomics, Marxism, free trade', key='keywords')
         st.radio('Similarity level', ['Low', 'Medium', 'High'], horizontal=True, key='similarity_level')
     else:
