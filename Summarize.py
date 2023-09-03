@@ -10,8 +10,8 @@ pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 # Import Langchain modules
 from langchain.chat_models import ChatOpenAI
-from langchain.document_loaders import WebBaseLoader
 from langchain.chains.summarize import load_summarize_chain
+from langchain.document_loaders import WebBaseLoader
 # Import text splitter packages to chunk data based on specified number of tokens
 from langchain.text_splitter import RecursiveCharacterTextSplitter 
 size, overlap = 4000, 50
