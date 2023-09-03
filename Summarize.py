@@ -1,7 +1,9 @@
 import streamlit as st
 
 # Import PDF extraction modules
-from pdf2image import convert_from_bytes
+import fitz
+import io
+from PIL import Image
 import pytesseract
 from PyPDF2 import PdfReader
 pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
@@ -35,10 +37,13 @@ def extract(pdf):
 
 @st.cache_data
 def extract_with_ocr(pdf):
-    pdf_bytes = pdf.getvalue()
-    images = convert_from_bytes(pdf_bytes)
+    pdf_stream = io.BytesIO(pdf.getvalue())
+    pdf_document = fitz.open("pdf", pdf_stream)
     text = ''
-    for image in images:
+    for page_number in range(pdf_document.page_count):
+        page = pdf_document.load_page(page_number)
+        pix = page.get_pixmap()
+        image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
         text += pytesseract.image_to_string(image)
     return text
 
