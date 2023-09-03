@@ -1,3 +1,4 @@
+Pillow
 PyMuPDF
 pytesseract
 PyPDF2
