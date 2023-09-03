@@ -5,7 +5,6 @@ import re
 # Import PDF extraction modules
 import fitz
 import io
-from PIL import Image
 import pytesseract
 from PIL import Image
 from PyPDF2 import PdfReader
