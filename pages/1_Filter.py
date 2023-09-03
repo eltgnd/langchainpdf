@@ -161,37 +161,34 @@ def main():
         # Extract text
         st.write()
         if pdf_val:
-            with st.spinner('Extracting text from your input...'):
-                # PDF extraction
-                if pdf_has_text(st.session_state.pdf):
-                    text = extract(st.session_state.pdf)
-                else:
-                    text = extract_with_ocr(st.session_state.pdf)            
+            # PDF extraction
+            if pdf_has_text(st.session_state.pdf):
+                text = extract(st.session_state.pdf)
+            else:
+                text = extract_with_ocr(st.session_state.pdf)            
         else:
             text = st.session_state.text
         st.success('Done extracting text.')
     
         # Filter
-        with st.spinner('Filtering sentences...'):
-            if st.session_state.method == 'By keyword':
-                keywords = [i.strip() for i in st.session_state.keywords.split(',')]
-                similarity_level_dict = {'Low':0.5, 'Medium':0.8, 'High':0.95}
-                similarity_level = similarity_level_dict[st.session_state.similarity_level]
+        if st.session_state.method == 'By keyword':
+            keywords = [i.strip() for i in st.session_state.keywords.split(',')]
+            similarity_level_dict = {'Low':0.5, 'Medium':0.8, 'High':0.95}
+            similarity_level = similarity_level_dict[st.session_state.similarity_level]
 
-                import warnings
-                with warnings.catch_warnings():
-                    warnings.simplefilter('ignore', category=UserWarning)
-                    filtered_sentences = get_similar(text, keywords, similarity_level)
+            import warnings
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore', category=UserWarning)
+                filtered_sentences = get_similar(text, keywords, similarity_level)
+        else:
+            if st.session_state.filter_keys == []:
+                st.error('At least one filter key must be selected.')
             else:
-                if st.session_state.filter_keys == []:
-                    st.error('At least one filter key must be selected.')
-                else:
-                    patterns = get_patterns(st.session_state.filter_keys)
-                    filtered_sentences = get_filtered_text(text, patterns)
-            output_str = output_sentences(filtered_sentences)
+                patterns = get_patterns(st.session_state.filter_keys)
+                filtered_sentences = get_filtered_text(text, patterns)
+        output_str = output_sentences(filtered_sentences)
 
         st.success('Done filtering sentences.')
-        st.balloons()
 
         st.download_button('Optional: download the filtered sentences as a TXT file.', output_str, file_name='filtered_sentences.txt')
 
