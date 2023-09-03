@@ -6,7 +6,6 @@ import io
 from PIL import Image
 import pytesseract
 from PyPDF2 import PdfReader
-# pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 # Import Langchain modules

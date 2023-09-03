@@ -1,7 +1,6 @@
 import streamlit as st
 import spacy
 import re
-# import pysbd (does not work as expected)
 
 # Import PDF extraction modules
 import fitz
@@ -10,7 +9,7 @@ from PIL import Image
 import pytesseract
 from PIL import Image
 from PyPDF2 import PdfReader
-pytesseract.pytesseract.tesseract_cmd = r'Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 # PDF extraction functions
 def pdf_has_text(pdf):
@@ -41,11 +40,6 @@ def extract_with_ocr(pdf):
     return text
 
 def get_filtered_text(chunk, patterns, sentence_ender='. '):
-
-    # Doesn't work as expected
-    # seg = pysbd.Segmenter(language="en", clean=True)
-    # segmented_text = seg.segment(chunk)
-
     filtered_text = []
     for index, sentence in enumerate(chunk.split(sentence_ender)):
         sentence = sentence.strip() + '.'
